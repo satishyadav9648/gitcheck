@@ -46,15 +46,25 @@ products.forEach((product) => {
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary">
+      <button class="add-to-cart-button button-primary js-add-to-cart" data-product-name="${product.name}">
         Add to Cart
       </button>
     </div>
    `;
 })
 
-console.log(productHTML);
-
 // generate the html which i write in js-products-grid so we can delete form amazon.html
 
 document.querySelector('.js-products-grid').innerHTML = productHTML;
+
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  button.addEventListener('click', () => {
+    const productName = button.dataset.productName;
+    cart.push({
+      productName : productName,
+      quantity : 1
+    });
+
+    console.log(cart);
+  });
+});
