@@ -21,7 +21,7 @@ products.forEach((product) => {
       </div>
 
       <div class="product-price">
-        ${(product.priceCents / 100).toFixed(2)}
+        $${(product.priceCents / 100).toFixed(2)}
       </div>
 
       <div class="product-quantity-container">
@@ -56,6 +56,9 @@ products.forEach((product) => {
 // generate the html which i write in js-products-grid so we can delete form amazon.html
 
 document.querySelector('.js-products-grid').innerHTML = productHTML;
+
+const addedMessageTimeouts = {};
+
 
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
@@ -95,9 +98,17 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
     addedMessage.classList.add('added-to-cart-visible');
 
-    setTimeout(() => {
+    const previousTimeoutId = addedMessageTimeouts[productId];
+
+    if(previousTimeoutId){
+      clearTimeout(previousTimeoutId);
+    }
+
+    const timeoutId = setTimeout(() => {
       addedMessage.classList.remove('added-to-cart-visible');
     }, 2000);
 
+    addedMessageTimeouts[productId] = timeoutId;
+    
   });
 });
